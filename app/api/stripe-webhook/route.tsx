@@ -2,13 +2,6 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabase';
 
-// Necesitamos desactivar el parser por defecto de Next.js para validar la firma de Stripe
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2024-06-20' as any,
 });
@@ -16,6 +9,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(request: Request) {
+  // En Next.js App Router, request.text() ya nos devuelve el body en crudo (raw)
+  // necesario para verificar la firma de Stripe.
   const body = await request.text();
   const signature = request.headers.get('stripe-signature') || '';
 

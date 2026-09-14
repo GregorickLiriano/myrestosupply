@@ -1,0 +1,20 @@
+{
+  "/[categorySlug]/page": "/[categorySlug]",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/account/page": "/account",
+  "/admin/page": "/admin",
+  "/api/create-payment-intent/route": "/api/create-payment-intent",
+  "/api/send-email/route": "/api/send-email",
+  "/api/stripe-webhook/route": "/api/stripe-webhook",
+  "/cart/page": "/cart",
+  "/checkout/page": "/checkout",
+  "/favicon.ico/route": "/favicon.ico",
+  "/forgot-password/page": "/forgot-password",
+  "/login/page": "/login",
+  "/page": "/",
+  "/product/[slug]/page": "/product/[slug]",
+  "/register/page": "/register",
+  "/shop/page": "/shop",
+  "/update-password/page": "/update-password"
+}

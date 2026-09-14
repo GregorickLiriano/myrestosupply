@@ -1,0 +1,3 @@
+module.exports=[93181,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(752);a.n(d("[project]/tienda-ecommerce/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},40965,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(752);a.n(d("[project]/tienda-ecommerce/node_modules/next/dist/client/components/builtin/global-error.js"))},94816,a=>{"use strict";a.i(93181);var b=a.i(40965);a.n(b)},38941,a=>{a.n(a.i(94816))}];
+
+//# sourceMappingURL=0-gf_next_dist_client_components_builtin_global-error_1unonpg.js.map

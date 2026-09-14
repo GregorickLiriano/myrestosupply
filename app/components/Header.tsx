@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
 import { usePathname } from 'next/navigation';
 import { useCart } from '../../context/CartContext';
+import logoImg from '../../public/Logo.png';
 
 type Category = {
   id: string;
@@ -239,7 +240,7 @@ export default function Header() {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
               <Image 
-                src="/Logo.png" 
+                src={logoImg} 
                 alt="Logo Tienda" 
                 width={160} 
                 height={55} 

@@ -53,7 +53,8 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
     product.regular_price = safeVariants[0].price;
   }
 
-  const categoryData = product.product_categories?.[0]?.categories;
+  // 🚀 CORRECCIÓN TYPESCRIPT: Forzamos el tipo 'any' para evitar que asigne 'never'
+  const categoryData: any = product.product_categories?.[0]?.categories;
 
   const mainImageUrl = product.product_images && product.product_images.length > 0 
     ? product.product_images[0].url 
@@ -85,7 +86,10 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
   }
 
   let relatedProducts: any[] = [];
-  if (categoryData?.id) {
+  // Ahora TypeScript no se quejará al buscar el .id
+  const categoryId = Array.isArray(categoryData) ? categoryData[0]?.id : categoryData?.id;
+
+  if (categoryId) {
     const { data: related } = await supabase
       .from('products')
       .select(`
@@ -93,7 +97,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
         product_categories!inner(category_id),
         product_images ( url )
       `)
-      .eq('product_categories.category_id', categoryData.id)
+      .eq('product_categories.category_id', categoryId)
       .neq('id', product.id)
       .limit(5);
 
@@ -117,8 +121,11 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
             {categoryData && (
               <>
                 <span>/</span>
-                <Link href={`/shop?category=${categoryData.slug || categoryData.id}`} className="hover:text-brand-primary transition-colors">
-                  {categoryData.name}
+                <Link 
+                  href={`/shop?category=${Array.isArray(categoryData) ? categoryData[0]?.slug || categoryData[0]?.id : categoryData.slug || categoryData.id}`} 
+                  className="hover:text-brand-primary transition-colors"
+                >
+                  {Array.isArray(categoryData) ? categoryData[0]?.name : categoryData.name}
                 </Link>
               </>
             )}

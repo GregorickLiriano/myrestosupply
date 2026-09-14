@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '../../lib/supabase';
@@ -20,7 +20,7 @@ type Product = {
 
 const ITEMS_PER_PAGE = 16; 
 
-export default function ShopPage() {
+function ShopContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -406,5 +406,18 @@ export default function ShopPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+// 🚀 Este es el componente que se exporta y que envuelve el contenido en un Suspense
+export default function ShopPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="w-8 h-8 border-4 border-gray-200 border-t-brand-primary rounded-full animate-spin"></div>
+      </div>
+    }>
+      <ShopContent />
+    </Suspense>
   );
 }

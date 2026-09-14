@@ -18,7 +18,7 @@ type ProductInfo = {
   sku: string;
   regular_price: number | null;
   imageUrl?: string; 
-  unit?: string | null; // 🚀 AÑADIMOS EL CAMPO UNIT AQUÍ PARA QUE EL COMPONENTE LO RECIBA
+  unit?: string | null;
 };
 
 export default function ProductOptionsBox({ 
@@ -66,14 +66,14 @@ export default function ProductOptionsBox({
 
   useEffect(() => {
     if (parsedVariants.length > 0 && Object.keys(selectedOptions).length === 0) {
-      setSelectedOptions(parsedVariants[0].parsedAttr);
+      setSelectedOptions(parsedVariants[0].parsedAttr as Record<string, string>);
     }
   }, [parsedVariants, selectedOptions]);
 
   const matchedVariant = useMemo(() => {
     if (Object.keys(selectedOptions).length === 0) return null;
     return parsedVariants.find(v => {
-      return Object.entries(selectedOptions).every(([key, val]) => v.parsedAttr[key] === val);
+      return Object.entries(selectedOptions).every(([key, val]) => (v.parsedAttr as Record<string, any>)[key] === val);
     });
   }, [selectedOptions, parsedVariants]);
 
@@ -138,8 +138,10 @@ export default function ProductOptionsBox({
   }
 
   const totalPrice = unitPrice * quantity;
-  const isOutOfStock = matchedVariant && matchedVariant.stock_quantity === 0;
-  const isUnavailable = isVariable && !matchedVariant;
+  
+  // 🚀 AQUÍ ESTÁ LA CORRECCIÓN DE TYPESCRIPT
+  const isOutOfStock = matchedVariant ? matchedVariant.stock_quantity === 0 : false;
+  const isUnavailable = Boolean(isVariable && !matchedVariant);
 
   const handleAddToCart = () => {
     if (basePrice === null || basePrice === undefined) return;
@@ -179,13 +181,11 @@ export default function ProductOptionsBox({
         <span className="text-xs text-[#0056b3] hover:underline cursor-pointer ml-2 font-medium">(24 Reviews)</span>
       </div>
 
-      {/* 🚀 AQUÍ ES DONDE SE DIBUJA EL SKU Y LAS UNIDADES */}
       <div className="flex items-center gap-3 mb-6 flex-wrap">
         <p className="text-sm text-gray-500 font-bold uppercase tracking-widest">
           Item #: <span className="text-gray-800 transition-all">{displaySku || 'N/A'}</span>
         </p>
         
-        {/* 🚀 LÓGICA QUE MUESTRA LAS UNIDADES SI EXISTEN */}
         {product.unit && (
           <>
             <span className="text-gray-300 hidden sm:inline-block">|</span>

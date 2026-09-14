@@ -92,10 +92,10 @@ export default function CheckoutPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Cálculos del resumen
-  const shippingCost = 0.00; 
-  const taxRate = 0.00; 
-  const finalTotal = cartTotal + shippingCost + (cartTotal * taxRate);
+  // Cálculos del resumen (¡CORRECCIÓN DE TYPESCRIPT AQUÍ!)
+  const shippingCost: number = 0.00; 
+  const taxRate: number = 0.00; 
+  const finalTotal: number = cartTotal + shippingCost + (cartTotal * taxRate);
 
   // 🚀 LÓGICA CUANDO EL PAGO DE STRIPE ES EXITOSO
   const handlePaymentSuccess = async (transactionId: string) => {
